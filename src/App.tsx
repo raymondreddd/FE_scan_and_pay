@@ -1,11 +1,28 @@
+import Menu from "./components/Menu";
+import Navbar from "./components/Navbar";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
-
   return (
-    <>
-      <h1>Hello World!</h1>
-    </>
+    <div
+      style={{
+        width: "100vw",
+        height: "100vh",
+      }}
+    >
+      <Navbar />
+      <Router>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/verify" element={<Verify />} />
+          <Route path="/menu" element={<Menu />} />
+        </Routes>
+      </Router>
+    </div>
   );
 }
 
-export default App
+const Login = () => <div>Login Page</div>;
+const Verify = () => <div>Verify Page</div>;
+
+export default App;
