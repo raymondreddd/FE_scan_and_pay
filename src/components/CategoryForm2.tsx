@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -20,28 +21,48 @@ import {
 } from "@/components/ui/select";
 
 // call back
-const createCategory = (name: string) => {
-  return () => {
-    fetch("http://localhost:3000/api/v1/products/category", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name }),
+const createCategory = async (name: string) => {
+  console.log("name in createCategoryCB", name);
+  await axios
+    .post(
+      "http://localhost:3000/api/v1/products/category",
+      { name },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+    .then((response) => {
+      console.log("Response creating catgeory:", response.data);
+    })
+    .catch((error) => {
+      console.log("ERROR creating catgeory:", error);
     });
-  };
+  // fetch("http://localhost:3000/api/v1/products/category", {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify({ name }),
+  // });
 };
 
 export function CategoryForm2() {
-  const [createText, setCreateText] = useState([]);
-  const createCategoryMutation = useMutation(createCategory(createText), {
-    onSuccess: () => {
-      console.log("Successfuly created category");
-    },
-    onError: (error) => {
-      console.log("Error in creating category:", error);
-    },
+  const [createText, setCreateText] = useState("");
+
+  // mutation to create catgeory
+  const createCategoryMutation = useMutation({
+    mutationFn: createCategory,
   });
+
+  if (createCategoryMutation.isPending) {
+    return <div> Creating...</div>;
+  }
+
+  if (createCategoryMutation.error) {
+    return <div> Error: {createCategoryMutation.error.message}</div>;
+  }
 
   return (
     <div className="flex flex-col justify-around items-center p-4 m-4">
@@ -60,14 +81,16 @@ export function CategoryForm2() {
                     id="name"
                     placeholder="Name of your project"
                     value={createText}
-                    onChange={(e) => setCreateText(createText)}
+                    onChange={(e) => {
+                      setCreateText(e.target.value);
+                    }}
                   />
                 </div>
               </div>
             </form>
           </CardContent>
           <CardFooter className="flex justify-end">
-            <Button onClick={() => createCategoryMutation.mutate()}>
+            <Button onClick={() => createCategoryMutation.mutate(createText)}>
               Done
             </Button>
           </CardFooter>

@@ -1,12 +1,12 @@
-import React from "react";
+// import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { CategoryRounded } from "@mui/icons-material";
+// import { CategoryRounded } from "@mui/icons-material";
 
 const Menu = () => {
   // use Query functions
   const fetchCategories = async () => {
     const response = await (
-      await fetch("http://localhost:3000/api/v1/products/category", {
+      await fetch("http://localhost:3000/api/v1/products/category/all", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -34,7 +34,7 @@ const Menu = () => {
 
   // params: dependency, cb for API
   const {
-    isLoading: isLoadingCategories,
+    isPending: isPendingCategories,
     error: errorCategories,
     data: categories,
   } = useQuery({
@@ -45,7 +45,7 @@ const Menu = () => {
   });
 
   const {
-    isLoading: isLoadingProducts,
+    isPending: isPendingProducts,
     error: errorProducts,
     data: products,
   } = useQuery({
@@ -58,9 +58,15 @@ const Menu = () => {
   console.log("Categories:", categories);
   console.log("Products:", products);
 
-  if (isLoadingCategories || isLoadingProducts) return <>Loading</>;
+  if (isPendingCategories || isPendingProducts) return <>Loading</>;
   if (errorProducts || errorCategories) return <>Error</>;
-  return <div>{categories}</div>;
+  return (
+    <div>
+      {categories.map((cat) => {
+        <div> {cat.name}</div>;
+      })}
+    </div>
+  );
 };
 
 export default Menu;
