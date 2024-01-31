@@ -1,5 +1,6 @@
 import { CategoryForm2 } from "./components/CategoryForm2";
 import Menu from "./components/Menu";
+import { ProductForm } from "./components/ProductForm";
 import Navbar from "./components/Navbar";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 // import { useQuery } from "@tanstack/react-query";
@@ -15,7 +16,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/admin/category/form" element={<CategoryForm2 />} />
+          <Route path="/admin/category" element={<CategoryForm2 />} />
+          <Route path="/admin/product" element={<ProductForm />} />
           <Route path="/verify" element={<Verify />} />
           <Route path="/menu" element={<Menu />} />
         </Routes>

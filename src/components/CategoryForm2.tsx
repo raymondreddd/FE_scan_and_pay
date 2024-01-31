@@ -65,11 +65,11 @@ export function CategoryForm2() {
   }
 
   return (
-    <div className="flex flex-col justify-around items-center p-4 m-4">
-      <div>
-        <Card className="w-[290px]">
+    <div className="flex flex-col justify-between p-4">
+      <div className="m-2">
+        <Card className="w-6/7">
           <CardHeader>
-            <CardTitle>Create Category</CardTitle>
+            <CardTitle className="base">Create Category</CardTitle>
             <CardDescription>Write the name of NEW category.</CardDescription>
           </CardHeader>
           <CardContent>
@@ -98,8 +98,8 @@ export function CategoryForm2() {
       </div>
       {/* end: CREATE CATEGORY */}
 
-      <div>
-        <Card className="w-[290px]">
+      <div className="m-2">
+        <Card className="w-6/7">
           <CardHeader>
             <CardTitle>Rename Category</CardTitle>
             <CardDescription>Update name of category.</CardDescription>
